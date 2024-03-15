@@ -1,6 +1,5 @@
 var percelen;
 var percelenLayer;
-
 var verkochtePercelen;
 var verkochtePercelenLayer
 
