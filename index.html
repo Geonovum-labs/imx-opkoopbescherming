@@ -1,0 +1,35 @@
+<html> 
+	<head> 
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+		<!--script src="http://malsup.github.com/jquery.form.js"></script--> 
+
+		<!-- Leaflet -->
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css">
+		<!-- Make sure you put this AFTER Leaflet's CSS -->
+		<script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+		<!-- Proj4 and Proj4Leaflet -->
+		<script src="https://unpkg.com/proj4@2.4.3/dist/proj4-src.js"></script>
+		<script src="https://unpkg.com/proj4leaflet@1.0.1"></script>
+		<script src="https://geoportalpl.github.io/leaflet.projwmts/src/TileLayer.ProjWMTS.js"></script>
+		<script src="https://unpkg.com/esri-leaflet@2.1.1"></script>
+
+		<link rel="stylesheet" href="css/style.css" />	
+		<script src="js/init_map.js"></script> 
+        <script src="js/init_basemaps.js"></script> 
+        <script src="js/get_percelen.js"></script>
+
+        <script type="text/javascript">
+                $(document).ready(function() {
+                        init_map();
+                        
+                });
+        </script>
+
+	</head> 
+	<body>
+	
+	<div id="map"></div>
+        <button onclick="verkochtePercelen(percelen);" value="verkochte Percelen">Verkochte percelen</button>
+        <button onclick="controleerPercelen(verkochtePercelen);">Controleer Percelen</button>
+	</body>
+</html>
