@@ -59,39 +59,45 @@ function controleerPercelen(verkochtePercelen){
 }
 
 function opkoopBescherming(identificatie) {
-    const url = 'https://raw.githubusercontent.com/Geonovum-labs/imx-opkoopbescherming/main/graphql/opkoopbescherming.gql';
-    
+    const url = 'https://raw.githubusercontent.com/Geonovum-labs/imx-opkoopbescherming/main/graphql/opkoopbescherming.gql';    
     $.ajax({
         url: url,
         async: false
-     }).done(function(graphql){       
+     }).done(function(graphql){ 
+        graphql.replace("%id%", identificatie);        
+        vraagOrkestratie(graphql);
+     });
 
-        graphql.replace("%%id%%", identificatie);        
-        vraagOrkestratie(graphql);        
-
-         });
-     //return toReturn;
 }; 
 
 function vraagOrkestratie(graphql) {
-
    
-    var url= 'https://imx.apps.digilab.network/fieldlab/api';
-    const query = JSON.stringify({ query: graphql});
+    var url= 'http://217.72.202.233/beta/orkestratie-proxy/?url=https://imx.apps.digilab.network/fieldlab/api';
+    const query = JSON.stringify({graphql});
     console.log(query);
-    
-    $.ajax({
-
-        url: url,
-        data: query,
-        headers: {  'Content-Type' : 'application/json' },
-        type: 'POST',
-        //dataType: 'json',
-        success: function() { alert("Success"); },
-        error: function() { alert('Failed!'); },
+   
+    $.post(url, query, function(data) {
+        console.log(data);
     });
 
-  
+
+   // }
+    //var settings = {
+    //    "url": url,
+    //    "method": "POST",
+    //    "timeout": 0,
+    //    "headers": {
+   //       "Content-Type": "application/json"
+   //     },
+   //     "data": JSON.stringify({
+   //       "query": "{\n  kadastraalOnroerendeZaak(identificatie: \"OZ0001\") {\n    identificatie\n    eigenaar\n    identificatieNummeraanduiding\n    identificatieAdresseerbaarObject\n    bewoner\n  }\n}",
+   //       "variables": {}
+  //      }),
+  //    };
+      
+  //    $.ajax(settings).done(function (response) {
+   //     console.log(response);
+  //    });
 
 
 
