@@ -77,7 +77,7 @@ function opkoopBescherming(identificatie) {
 function vraagOrkestratie(graphql) {
 
    
-    var url= 'https://crossorigin.me/https://imx.apps.digilab.network/fieldlab/api';
+    var url= 'https://imx.apps.digilab.network/fieldlab/api';
     const query = JSON.stringify({ query: graphql});
     console.log(query);
     
@@ -87,8 +87,7 @@ function vraagOrkestratie(graphql) {
         data: query,
         headers: {  'Content-Type' : 'application/json' },
         type: 'POST',
-        crossDomain: true,
-        dataType: 'jsonp',
+        //dataType: 'json',
         success: function() { alert("Success"); },
         error: function() { alert('Failed!'); },
     });
