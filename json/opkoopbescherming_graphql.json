@@ -1,0 +1,55 @@
+{
+    kadastraalOnroerendeZaak(identificatie: "%%id%%") {  
+      __typename
+      identificatie
+      bewoner
+      eigenaar    	
+      identificatieNummeraanduiding
+      geregistreerdMet{
+        __typename      
+        bestaatUit {
+          __typename
+          kenmerk       
+          onderwerp{
+            type
+            identificatie
+                }
+          waarde {            
+              stringValue
+              integerValue
+              booleanValue
+              objectValue {
+                type
+                identificatie
+                    }
+                }        
+          wasGeneratedBy{
+            __typename
+            used{
+              pathMappings{
+                path{
+                  segments
+                            }
+                        }
+                    }
+                }
+          isAfgeleidVan {
+            __typename
+            onderwerp {
+              type
+              identificatie
+                    }
+            waarde{            
+              stringValue
+              integerValue
+              booleanValue
+              objectValue {
+                type
+                identificatie
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
