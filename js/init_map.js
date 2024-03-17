@@ -1,5 +1,8 @@
 var map;
+
+
 	
+
 var init_map = function() {	
 
     const RD = new L.Proj.CRS(
@@ -18,9 +21,39 @@ var init_map = function() {
                             drawControl: true, 
                             crs: RD, 
                             layers: [basemaps.bgt]}
-                    ).setView([51.984917662596786, 4.667935645022338], 13);	 
+                    ).setView(pickRandomPlace(), 13);	 
 					
 					
-	map.on('load', get_percelen());
+	map.on('load', getPercelen());
+}
 
+function pickRandomPlace() {
+
+	const stedenGeometrie = {
+		"Amsterdam": [52.3676, 4.9041],
+		"Rotterdam": [51.9225, 4.4792],
+		"Den Haag": [52.0705, 4.3007],
+		"Utrecht": [52.0907, 5.1214],
+		"Eindhoven": [51.4416, 5.4697],
+		"Tilburg": [51.5555, 5.0913],
+		"Groningen": [53.2194, 6.5665],
+		"Almere": [52.3508, 5.2647],
+		"Breda": [51.5719, 4.7683],
+		"Nijmegen": [51.8426, 5.8380],
+		"Apeldoorn": [52.2112, 5.9699],
+		"Enschede": [52.2215, 6.8937],
+		"Haarlem": [52.3874, 4.6462],
+		"Arnhem": [51.9851, 5.8987],
+		"Amersfoort": [52.1561, 5.3878],
+		"Zaanstad": [52.4534, 4.8133],
+		"Haarlemmermeer": [52.3060, 4.6900],
+		"'s-Hertogenbosch": [51.6978, 5.3037],
+		"Zoetermeer": [52.0570, 4.4910],
+		"Zwolle": [52.5168, 6.0830]
+	};	
+	const stedenArray = Object.keys(stedenGeometrie);
+	const randomIndex = Math.floor(Math.random() * stedenArray.length);
+	const randomStadNaam = stedenArray[randomIndex];
+	console.log(randomStadNaam);
+	return stedenGeometrie[randomStadNaam];
 }

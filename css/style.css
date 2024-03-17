@@ -1,3 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Ojuju:wght@200..800&display=swap');
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+   
+  .left-box,
+  .right-box {
+    width: calc(50% - 5px); /* De breedte van elke div is de helft van de containerbreedte minus de tussenruimte */
+    height: 0;
+    padding-bottom: calc(50% - 5px); /* Vierkant formaat */
+    background-color: #ccc;
+  }
+  
+  .left-box {
+    margin-right: 5px; /* Tussenruimte */
+  }
+  
+  .right-box {
+    margin-left: 5px; /* Tussenruimte */
+  }
+  
+  @media (max-width: 768px) {
+    /* Media-query voor responsiviteit bij kleinere schermen */
+    .container {
+      flex-direction: column; /* Div's worden onder elkaar geplaatst */
+    }
+  
+    .left-box,
+    .right-box {
+      width: 100%; /* Breedte van elke div wordt 100% */
+      margin: 5px 0; /* Tussenruimte boven en onder */
+    }
+  }
+
+  .slide {
+    width: calc(90% - 10px);
+    height: 100%;
+    padding: 20px;
+    background-color: #ccc;
+    display: none;
+  }
+  
+  .slide.active {
+    display: block;
+  }
+  
+.buttons {
+
+    display: flex;
+    justify-content: center; /* Horizontale centrering */
+    align-items: center; /* Verticale centrering */
+    height: 200px; /* Aanpassen aan uw behoefte */
+}
+  
+  button {
+    display:none;
+    margin-top: 10px;
+  }
+  
+  .header {
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.header h2 {
+  font-family: "Ojuju", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  margin: 0;
+}
+
+.green-line {
+  width: 100%;
+  height: 5px;
+  background-color: green;
+  margin-top: 10px; /* Aanpassen aan uw behoefte */
+  margin-bottom: 10px; /* Aanpassen aan uw behoefte */
+}
+
+
 #map {
 
     height: 480px;

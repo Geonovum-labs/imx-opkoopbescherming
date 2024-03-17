@@ -18,19 +18,57 @@
 		<script src="js/init_map.js"></script> 
         <script src="js/init_basemaps.js"></script> 
         <script src="js/get_percelen.js"></script>
+		<script src="js/createDiagram.js"></script>
+		<script src="js/initUI.js"></script>
 
         <script type="text/javascript">
                 $(document).ready(function() {
-                        init_map();
-                        
+                        init_map();                        
                 });
         </script>
 
 	</head> 
 	<body>
+		<div class="header">
+			<h2>Titel van de Header</h2>
+			<div class="green-line"></div>
+		  </div>  
+
+
+	<div class="container">
+
+		<div class="left-box">
+			<div class="slide active"></div>
+   			<div class="slide">Slide 2</div>
+			<div class="slide">Slide 3</div>
+			<div class="slide">Slide 4</div>				
+		</div>
+		<div class="right-box"></div>		
+	</div>
+	<div class="buttons">
+		<button id="prevBtn">Vorige</button>
+		<button id="nextBtn">Volgende</button>
+	</div>		
+
+
+
+	
 	
 	<div id="map"></div>
-        <button onclick="verkochtePercelen(percelen);" value="verkochte Percelen">Verkochte percelen</button>
-        <button onclick="controleerPercelen(verkochtePercelen);">Controleer Percelen</button>
+	<div id="properties">FeatureData</div>
+	<div id="lineage">FeatureLineage
+		<div class="mermaid" id="lineageDiagram">
+			graph RL
+				A --- B
+				B-->C[fa:fa-ban forbidden]
+				B-->D(fa:fa-spinner);
+			</div>
+		   <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+		   <script>mermaid.initialize({startOnLoad:true, maxEdges: 1000});</script>
+	</div>
+	<div id="log">Logging</div>
+        <button onclick="getVerkochtePercelen(percelen);" value="verkochte Percelen">Verkochte percelen</button>
+        <button onclick="checkPercelen(verkochtePercelen);">Controleer Percelen</button>
+		
 	</body>
 </html>

@@ -1,9 +1,6 @@
-var percelen;
-var percelenLayer;
-var verkochtePercelen;
-var verkochtePercelenLayer
+let percelen, percelenLayer, verkochtePercelen, verkochtePercelenLayer, controleLayer;
 
-function get_percelen() {
+function getPercelen() {
     console.log('ophalen Percelen');
     const bounds = map.getBounds();
     const bbox = `${bounds._southWest.lat},${bounds._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng}`;
@@ -16,24 +13,33 @@ function get_percelen() {
                                             fillOpacity: 0
                                         }
         }).addTo(map);
-        percelen = data;        
+        percelen = data;          
     });  
 }
 
-function verkochtePercelen(percelen) {
+function getVerkochtePercelen(percelen) {
     features = {};
-    $.getJSON('https://raw.githubusercontent.com/imx-org/imx-fieldlab/main/data/brk/OnroerendeZaak.json', function(data) {
-                
+    $.getJSON('https://raw.githubusercontent.com/imx-org/imx-fieldlab/main/data/brk/OnroerendeZaak.json', function(data) {                
         const idx = getRandomIndexes(percelen.features.length);   
-        verkochtePercelenLayer = L.geoJSON().addTo(map);
+        verkochtePercelenLayer = L.geoJSON(null, {
+            style: function(feature) {
+                switch (feature.properties.controle) {
+                    case true: return {color: "#00ff00"};
+                    case false:   return {color: "#ff0000"};
+                    case 'selected': return {color: '#ffff000'};
+                }
+            }, 
+            onEachFeature: showData
+        }
+        ).addTo(map);             
+        for (i=0; i<data.length; i++) {                        
+                features[i] = percelen.features[idx[i]];
+                features[i].id = data[i].identificatie;
+                features[i].properties = null;
+                features[i].properties = { controle : null }
+                verkochtePercelenLayer.addData(percelen.features[idx[i]]);            
+            }         
         
-        for (i=0; i<data.length; i++) {
-            features[i] = percelen.features[idx[i]];
-            features[i].id = data[i].identificatie
-            //console.log(percelen.features[idx[i]]);
-
-            verkochtePercelenLayer.addData(percelen.features[idx[i]]);            
-        }         
         map.fitBounds(verkochtePercelenLayer.getBounds());  
         verkochtePercelen = features;       
         return features;
@@ -48,61 +54,93 @@ function getRandomIndexes (length) {
     return idx;
 }
 
-function controleerPercelen(verkochtePercelen){
-    console.log(verkochtePercelen);
-    $.each(verkochtePercelen, function(i, feature) {
-        
-        opkoopBescherming(feature.id);        
-
-        
+function checkPercelen(verkochtePercelen){   
+    verkochtePercelenLayer.clearLayers();
+    $.each(verkochtePercelen, function(i, feature) {         
+        checkOpkoopbescherming(feature,feature.id);     
     });
 }
 
-function opkoopBescherming(identificatie) {
+async function checkOpkoopbescherming(feature, identificatie) {
     const url = 'https://raw.githubusercontent.com/Geonovum-labs/imx-opkoopbescherming/main/graphql/opkoopbescherming.gql';    
     $.ajax({
         url: url,
         async: false
-     }).done(function(graphql){ 
-        graphql.replace("%id%", identificatie);        
-        vraagOrkestratie(graphql);
+     }).done(function(graphql){        
+        graphql = graphql.replace("%%id%%", identificatie);        
+        queryOrkestratie(feature, graphql);
      });
-
 }; 
 
-function vraagOrkestratie(graphql) {
-   
-    var url= 'http://217.72.202.233/beta/orkestratie-proxy/?url=https://imx.apps.digilab.network/fieldlab/api';
-    const query = JSON.stringify({graphql});
-    console.log(query);
-   
-    $.post(url, query, function(data) {
-        console.log(data);
+async function queryOrkestratie(feature, graphql) {   
+    var url= 'https://proxy.gewoongoedegeodata.nl/orkestratie/?url=https://imx.apps.digilab.network/fieldlab/api';       
+    let gql = {"query" : JSON.stringify(graphql)};   
+    $.post(url, gql, function(response) {     
+        checkBewonerEigenaar(feature, response.data, graphql);
     });
+}
+
+function checkBewonerEigenaar(feature,data, graphql) {     
+   const bewoner = data.kadastraalOnroerendeZaak.bewoner;
+   const eigenaar = data.kadastraalOnroerendeZaak.eigenaar;
+   const matches = bewoner.some(value => eigenaar.includes(value));  
+   feature.properties = data.kadastraalOnroerendeZaak; 
+   feature.properties.graphql = graphql;     
+   feature.properties.controle = matches;     
+   verkochtePercelenLayer.addData(feature);
+}
+
+function showData(feature, layer) {
+
+    console.log(feature);
+    // add yellow overlay;
+    layer.on('click', function() {         
+        const lineage = feature.properties.geregistreerdMet;
+        const properties = feature.properties;
+
+        formatProperties(properties);
+        formatLineage(lineage);
+        //$('#lineage').html('<h1>LINEAGE</h1>' + formatLineage(lineage));
+        $('#properties').html('<h1>DATA</h1>' + formatProperties(properties));        
+    });
+}
+
+function formatProperties (props) {
+
+    var html = '<table><th><td>Attribuut<td></td>Waarde</td></th>';
+    $.each(props, function(key, val) {
+         if (key != 'geregistreerdMet') {
+            html = html + '<tr><td>'+key+'</td><td>'+val+'</td></tr>';
+        }
+    });
+    html = html + '</table>';
+    return html;
+}
+
+function formatLineage (lineage) {
+
+   var diagram =  createLineageDiagram(lineage);
+   
+   $('#lineageDiagram').html(diagram).removeAttr('data-processed');
+   mermaid.init(undefined, $("#lineageDiagram"));   
+   $.each(lineage, function(key, val) {
+
+           // console.log(key,val);
+          //  val.kenmerk
+
+            
 
 
-   // }
-    //var settings = {
-    //    "url": url,
-    //    "method": "POST",
-    //    "timeout": 0,
-    //    "headers": {
-   //       "Content-Type": "application/json"
-   //     },
-   //     "data": JSON.stringify({
-   //       "query": "{\n  kadastraalOnroerendeZaak(identificatie: \"OZ0001\") {\n    identificatie\n    eigenaar\n    identificatieNummeraanduiding\n    identificatieAdresseerbaarObject\n    bewoner\n  }\n}",
-   //       "variables": {}
-  //      }),
-  //    };
-      
-  //    $.ajax(settings).done(function (response) {
-   //     console.log(response);
-  //    });
-
+    });
 
 
 
 }
+
+
+
+
+
 
 
 
