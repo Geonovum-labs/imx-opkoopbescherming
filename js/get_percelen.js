@@ -7,6 +7,7 @@ function getPercelen() {
     const url = `https://geodata.nationaalgeoregister.nl/kadastralekaart/wfs/v4_0?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=kadastralekaartv4:perceel&STARTINDEX=0&COUNT=2000&OUTPUTFORMAT=application/json&SRSNAME=urn:ogc:def:crs:EPSG::4326&BBOX=${bbox},urn:ogc:def:crs:EPSG::4326`;
 
     $.getJSON(url, function(data) {
+        console.log(data);
         percelenLayer = L.geoJSON(data, { style: {
                                             color: '#000',
                                             weight: 2,
@@ -18,28 +19,41 @@ function getPercelen() {
 }
 
 function getVerkochtePercelen(percelen) {
-    features = {};
-    $.getJSON('https://raw.githubusercontent.com/imx-org/imx-fieldlab/main/data/brk/OnroerendeZaak.json', function(data) {                
-        const idx = getRandomIndexes(percelen.features.length);   
-        verkochtePercelenLayer = L.geoJSON(null, {
+    features = [];
+    $.getJSON('https://raw.githubusercontent.com/imx-org/imx-fieldlab/main/data/brk/OnroerendeZaak.json', function(data) { 
+
+    //prepare test data
+    const idx = getRandomIndexes(percelen.features.length);  
+
+    i = 0;
+    while (features.length < data.length) {
+        j= features.length;
+        feature = percelen.features[idx[i]];             
+        if (feature.properties.kadastraleGrootteWaarde > 100 && feature.properties.kadastraleGrootteWaarde < 250) {
+            console.log(data);
+            feature.id = data[j].identificatie;
+            feature.properties = null;
+            feature.properties = { controle : null }
+            features.push(feature); 
+                   
+        }    
+        //console.log(features);
+        i++;
+    }
+
+   
+
+    verkochtePercelenLayer = L.geoJSON(features, {                
             style: function(feature) {
-                switch (feature.properties.controle) {
-                    case true: return {color: "#00ff00"};
-                    case false:   return {color: "#ff0000"};
-                    case 'selected': return {color: '#ffff000'};
-                }
-            }, 
-            onEachFeature: showData
+                    switch (feature.properties.controle) {
+                        case true: return {color: "#00ff00"};
+                        case false:   return {color: "#ff0000"};
+                        case 'selected': return {color: '#ffff000'};
+                    }
+                },
+            onEachFeature: showData,            
         }
-        ).addTo(map);             
-        for (i=0; i<data.length; i++) {                        
-                features[i] = percelen.features[idx[i]];
-                features[i].id = data[i].identificatie;
-                features[i].properties = null;
-                features[i].properties = { controle : null }
-                verkochtePercelenLayer.addData(percelen.features[idx[i]]);            
-            }         
-        
+        ).addTo(map);
         map.fitBounds(verkochtePercelenLayer.getBounds());  
         verkochtePercelen = features;       
         return features;
@@ -91,10 +105,9 @@ function checkBewonerEigenaar(feature,data, graphql) {
 }
 
 function showData(feature, layer) {
-
-    console.log(feature);
-    // add yellow overlay;
-    layer.on('click', function() {         
+   
+    layer.on('click', function() { 
+        document.getElementById('feature-properties').style.display='block';        
         const lineage = feature.properties.geregistreerdMet;
         const properties = feature.properties;
 
@@ -137,6 +150,17 @@ function formatLineage (lineage) {
 
 }
 
+
+
+function featureArray2Object(featureArray) {
+
+// Omzetten naar een object zonder indexen
+const featureObject = featureArray.reduce((acc, value) => {
+    acc[value] = true; // Hier kun je elke waarde of eigenschap toewijzen aan de objecten zonder indexen
+    return acc;
+}, {});
+
+}
 
 
 

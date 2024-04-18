@@ -20,11 +20,16 @@ var init_map = function() {
                             scrollWheelZoom: true, 
                             drawControl: true, 
                             crs: RD, 
-                            layers: [basemaps.bgt]}
+                            layers: [basemaps.bgt, basemaps.brt]}
                     ).setView(pickRandomPlace(), 13);	 
 					
 					
 	map.on('load', getPercelen());
+	map.on('moveend', function() {
+
+			console.log(map.getCenter());
+
+	});
 }
 
 function pickRandomPlace() {

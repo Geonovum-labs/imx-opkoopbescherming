@@ -10,15 +10,41 @@ document.addEventListener('DOMContentLoaded', function () {
           slide.classList.add('active');
         } else {
           slide.classList.remove('active');
-        }
+        }        
       });
       updateButtonsVisibility();
+      demoShow(index);
+    }
+
+    function demoShow(index) {
+        if (index == 0) {
+          document.getElementById('infographic').style.display = 'block';
+          document.getElementById('map').style.display = 'none';  
+        }
+        if (index == 1){ 
+          document.getElementById('infographic').style.display = 'none';
+          document.getElementById('map').style.display = 'block';
+          if (!this.map) {
+            init_map();//map.remove();
+          }
+       
+        }
+        if (index == 2) {
+            getVerkochtePercelen(percelen);
+            map.invalidateSize();
+        }
+        if (index == 3) {
+          checkPercelen(verkochtePercelen);
+          map.invalidateSize();
+        }
+        
+
     }
   
     function updateButtonsVisibility() {
       if (currentIndex === 0) {
         prevBtn.style.display = 'none';
-        nextBtn.style.display = 'inline-block';
+        nextBtn.style.display = 'inline-block';        
       } else if (currentIndex === slides.length - 1) {
         prevBtn.style.display = 'inline-block';
         nextBtn.style.display = 'none';

@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Ojuju:wght@200..800&display=swap');
+@import url('https://fonts.cdnfonts.com/css/tenorite');
 
 .container {
-    width: 90%;
+    width: 80%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -13,7 +14,8 @@
     width: calc(50% - 5px); /* De breedte van elke div is de helft van de containerbreedte minus de tussenruimte */
     height: 0;
     padding-bottom: calc(50% - 5px); /* Vierkant formaat */
-    background-color: #ccc;
+    background-color: #fff;
+    border: solid 1px black;    
   }
   
   .left-box {
@@ -34,6 +36,7 @@
     .right-box {
       width: 100%; /* Breedte van elke div wordt 100% */
       margin: 5px 0; /* Tussenruimte boven en onder */
+      border: solid 1px black;      
     }
   }
 
@@ -41,31 +44,74 @@
     width: calc(90% - 10px);
     height: 100%;
     padding: 20px;
-    background-color: #ccc;
+    padding-bottom: calc(100% - 90px);  
+    background-color: #fff;
     display: none;
+    font-family: 'Tenorite', sans-serif;    
+    font-size: 1.1vw;
   }
   
   .slide.active {
     display: block;
   }
-  
-.buttons {
 
-    display: flex;
-    justify-content: center; /* Horizontale centrering */
-    align-items: center; /* Verticale centrering */
-    height: 200px; /* Aanpassen aan uw behoefte */
-}
-  
-  button {
-    display:none;
-    margin-top: 10px;
+  .feature-properties {
+    display: none;
   }
   
-  .header {
+.buttons {    
+    position: relative;
+    bottom: 0;
+    justify-content: space-between; /* Horizontale centrering */
+    align-items: center; /* Verticale centrering */    
+    width: 90%;
+    margin: auto; 
+}
+  
+button {
+    display:none;
+    margin-top: 10px;
+}
+
+#nextBtn {
+  position: absolute;
+  right: 0;
+}
+
+#prevBtn {
+  position: absolute;
+  left: 0;
+}
+
+button {
+  background-color: green; /* Groene achtergrondkleur */
+  color: white; /* Witte tekstkleur */
+  border: none; /* Geen rand */
+  border-radius: 20px; /* Ronde hoeken */
+  padding: 10px 20px; /* Ruimte binnen de knop */
+  font-size: 16px; /* Tekstgrootte */
+  cursor: pointer; /* Cursorstijl */
+  outline: none; /* Verwijder standaardfocusstijl */
+}
+
+/* Hover-effect */
+button:hover {
+  background-color: darkgreen; /* Verander de achtergrondkleur bij hover */
+}
+  
+.header {
   width: 90%;
   margin: 0 auto;
   text-align: center;
+}
+
+#infographic {
+  width: 100%;
+  padding-bottom: 100%;
+  background-image: url('https://www.geonovum.nl/uploads/inline/IMX_0.jpg'); /* URL van de achtergrondafbeelding */
+  background-size: contain; /* Zorg ervoor dat de achtergrondafbeelding de container bedekt */
+  background-repeat: no-repeat; /* Voorkom herhaling van de achtergrondafbeelding */
+  background-position: center; /* Centreer de achtergrondafbeelding */
 }
 
 .header h2 {
@@ -84,11 +130,10 @@
   margin-bottom: 10px; /* Aanpassen aan uw behoefte */
 }
 
-
 #map {
-
-    height: 480px;
-    width: 480px;
+    display: none;
+    width: 100%;
+    padding-bottom: 100%;
     margin: auto;
 }
 
