@@ -5,6 +5,8 @@
       bewoner
       eigenaar    	
       identificatieNummeraanduiding
+      identificatieAdresseerbaarObject
+      wozWaarde
       geregistreerdMet{
         __typename      
         bestaatUit {
