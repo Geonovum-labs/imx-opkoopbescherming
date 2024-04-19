@@ -1,37 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Ojuju:wght@200..800&display=swap');
 @import url('https://fonts.cdnfonts.com/css/tenorite');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
+
+
+body {
+
+
+  font-family: 'Tenorite', sans-serif;  
+  
+
+}
 
 .container {
-    width: 80%;
+    top: 0;
+    width: 1420px;
+    max-width: 1420px; 
+    height: 720px;
+    max-height: 720px;  
     margin: 0 auto;
-    display: flex;
+    display: flex; 
     justify-content: space-between;
     align-items: center;
+    position: relative;
   }
    
   .left-box,
   .right-box {
-    width: calc(50% - 5px); /* De breedte van elke div is de helft van de containerbreedte minus de tussenruimte */
-    height: 0;
-    padding-bottom: calc(50% - 5px); /* Vierkant formaat */
+    padding: 0;
+    width: 700px; /* De breedte van elke div is de helft van de containerbreedte minus de tussenruimte */
+    height: 700px;    
     background-color: #fff;
-    border: solid 1px black;    
+    border: solid 1px black; 
+    border-radius: 15px;   
+    justify-content: space-between;
+    align-items: center;
+
   }
   
   .left-box {
-    margin-right: 5px; /* Tussenruimte */
-  }
-  
+    float: left;
+    clear: none;
+    margin-right: 10px; /* Tussenruimte */
+  }  
   .right-box {
-    margin-left: 5px; /* Tussenruimte */
+    float: right;
+    margin-left: 10px; /* Tussenruimte */
   }
   
   @media (max-width: 768px) {
     /* Media-query voor responsiviteit bij kleinere schermen */
     .container {
       flex-direction: column; /* Div's worden onder elkaar geplaatst */
-    }
-  
+    }  
     .left-box,
     .right-box {
       width: 100%; /* Breedte van elke div wordt 100% */
@@ -40,28 +59,101 @@
     }
   }
 
+  a {
+    color:green;
+    font-weight: bold;
+     
+  }
+
   .slide {
-    width: calc(90% - 10px);
-    height: 100%;
-    padding: 20px;
-    padding-bottom: calc(100% - 90px);  
-    background-color: #fff;
-    display: none;
-    font-family: 'Tenorite', sans-serif;    
-    font-size: 1.1vw;
+    width: 90%;     
+    height: 90%;
+    padding: 20px;    
+    /*background-color: #fff;*/
+    display: none;   
+    font-size: 1.2em;    
+    justify-content: space-between;
+    align-items: center;
   }
   
   .slide.active {
     display: block;
   }
 
-  .feature-properties {
-    display: none;
+  #feature-properties {
+    position: absolute;    
+    top: -700px;
+    margin: auto;
+    width: 1300px;
+    height: 635px;
+    max-height: 635px;
+    border: 1px solid #ccc; /* Stel de gewenste border-stijl en kleur in */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Stel de schaduw in */
+    background-color: #fff; /* Stel de achtergrondkleur in */
+    padding: 20px; /* Stel de gewenste padding in */    
+    border-radius: 8px;
+    position: relative;
+    display: none;        
+    z-index: 9999;
+  }
+
+  .close {
+    position: absolute;
+    top: 25px;
+    right: 40px;
+    cursor: hand;
+    cursor: pointer;   
+    font-weight: normal;
+    text-decoration: underline;
+    font-size: 0.8em; 
+
   }
   
+  #properties {     
+    display: block;
+    height: 250px;
+    overflow-y: scroll; 
+   }
+
+  #properties table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left; 
+  font-size: 0.8em;   
+}
+
+/* Afwisselende rijkleuren */
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(n+1) td:nth-child(2) {
+  font-family: "Fira Code", monospace;
+  font-optical-sizing: auto;
+}
+
+h4 {
+
+  color: green;
+}
+
+
+ .mermaid svg {
+  height: 340px;
+  max-height: 340px;
+ /* border: solid 1px  #ddd; */
+  cursor: grab;
+
+ }
+
 .buttons {    
     position: relative;
-    bottom: 0;
+    bottom: 10%;
     justify-content: space-between; /* Horizontale centrering */
     align-items: center; /* Verticale centrering */    
     width: 90%;
@@ -100,7 +192,7 @@ button:hover {
 }
   
 .header {
-  width: 90%;
+  width: 1420px;
   margin: 0 auto;
   text-align: center;
 }
@@ -135,6 +227,7 @@ button:hover {
     width: 100%;
     padding-bottom: 100%;
     margin: auto;
+    border-radius: 15px;
 }
 
 

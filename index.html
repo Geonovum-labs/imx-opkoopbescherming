@@ -14,7 +14,9 @@
 		<script src="https://unpkg.com/proj4leaflet@1.0.1"></script>
 		<script src="https://geoportalpl.github.io/leaflet.projwmts/src/TileLayer.ProjWMTS.js"></script>
 		<script src="https://unpkg.com/esri-leaflet@2.1.1"></script>
-
+		<!-- PanZoom SVG-->
+		<!--script src="https://bumbu.me/svg-pan-zoom/dist/svg-pan-zoom.js"></script-->
+		<script src='https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js'></script>
 		<link rel="stylesheet" href="css/style.css" />	
 		<script src="js/init_map.js"></script> 
         <script src="js/init_basemaps.js"></script> 
@@ -22,6 +24,7 @@
 		<script src="js/createDiagram.js"></script>
 		<script src="js/initUI.js"></script>
 		<script src="js/calcAreaGeoJSON.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
       
 	</head> 
@@ -29,45 +32,69 @@
 		<div class="header">
 			<h2>IMX Opkoopbescherming</h2>
 			<div class="green-line"></div>
-		  </div>  
+		</div>  
+	
+	
+		
 
-
-	<div class="container">
-
+		
+	<div class="container">				
 		<div class="left-box">
-			<div class="slide active">
+			<div class="slide active" id="slide-1">
 				<h3>Inleiding</h3>
-				<p>Deze demonstrator illustreert hoe het concept van IMX kan worden toegepast om gegevens uit diverse bronnen op een samenhangende wijze te bevragen. 
+				<p>Deze demonstrator illustreert hoe het concept van <a href="https://www.geonovum.nl/geo-standaarden/imx-geo-semantisch-model-basis-en-kernregistraties" target="_blank">IMX</a> kan worden toegepast om gegevens uit diverse bronnen op een samenhangende wijze te bevragen. 
 					De demo toont hoe een orkestratie-engine, voorzien van een tussenliggend informatiemodel, in staat is om gegevens uit individuele bronnen op te halen en als geïntegreerde, gestroomlijnde datasets terug te geven via API's.</p>				
 				<p>Met IMX kunnen werkprocessen efficiënter worden gemaakt, waar voorheen meerdere afzonderlijke bevragingen nodig waren. Door IMX kan een product-API één enkele vraag stellen aan een orkestratie-engine.</p>				
-				<p>Deze demonstrator vloeit voort uit een 3-daagse fieldlab georganiseerd door Kadaster, Geonovum, RiVG en Belastingdienst, gehouden van 13 maart tot en met 15 maart 2024.</p>
+				<p>Deze demonstrator vloeit voort uit een 3-daagse fieldlab georganiseerd door <a href="https://www.kadaster.nl/" target="_blank">Kadaster</a>, <a href="https://www.geonovum.nl/" target="_blank">Geonovum</a>, <a href="https://www.rvig.nl/" target="_blank">RiVG</a> en <a href="https://www.belastingdienst.nl/" target="_blank">Belastingdienst</a>, gehouden van 13 maart tot en met 15 maart 2024.</p>
 			</div>
-   			<div class="slide">
+   			<div class="slide" id="slide-2">
 				<h3>Use Case</h3>
 				<p>Deze demonstrator is gebaseerd op de volgende use case.</p> 
 				<p>Gemeenten kunnen regelgeving opstellen om koopwoningen in populaire gebieden te beschermen tegen opkoping voor verhuur. 
-					Op deze manier blijven er meer koopwoningen beschikbaar voor eigen bewoning. Dit wordt ook wel opkoopbescherming genoemd.</p>
+					Op deze manier blijven er meer koopwoningen beschikbaar voor eigen bewoning. Dit wordt ook wel <a href="" target="_blank">opkoopbescherming</a> genoemd.</p>
 				<p>Gemeenten kunnen deze regelgeving handhaven. Wanneer blijkt dat een woning, vaak onder een bepaalde waarde, 
 					niet wordt bewoond door de eigenaar maar wordt verhuurd, kan de gemeente een sanctie of boete opleggen.</p>
-				<p>Voor deze handhaving combineren gemeenten gegevens uit verschillende bronnen, waaronder de Basisregistratie Adressen en Gebouwen (BAG), Basisregistratie Personen (BRP), 
-					Basisregistratie Waarde Onroerende Zaken (WOZ) en de Basisregistratie Kadaster.</p>
+				<p>Voor deze handhaving combineren gemeenten gegevens uit verschillende bronnen, waaronder de <a href="https://www.geobasisregistraties.nl/basisregistraties/adressen-en-gebouwen" target="_blank">Basisregistratie Adressen en Gebouwen (BAG)</a>, <a href="https://www.rijksoverheid.nl/onderwerpen/privacy-en-persoonsgegevens/basisregistratie-personen-brp" target="_blank">Basisregistratie Personen (BRP)</a>, 
+					<a href="https://www.geobasisregistraties.nl/basisregistraties/woz" target="_blank">Basisregistratie Waarde Onroerende Zaken (WOZ)</a> en de <a href="https://www.geobasisregistraties.nl/basisregistraties/kadaster" target="_blank">Basisregistratie Kadaster</a>.</p>
 				<p>Op de volgende pagina wordt uitgelegd hoe het proces momenteel verloopt.</p>
 			</div>
-			<div class="slide">
+			<div class="slide" id="slide-3">
+				<h3>Voorbeeld</h3>
 
+				<p>In het fictieve voorbeeld hieronder zien we percelen in <span id="stadNaam"></span> oplichten in het blauw, wat suggereert dat ze verkocht zijn. Om te bepalen of een gemeente moet handhaven op de opkoopbescherming, worden <a href="https://geonovum.github.io/imx-digilab/#huidig-proces-0" target="_blank">de volgende individuele bevragingen</a> uitgevoerd:</p>
 
+<ol>
+    <li>Check welke verblijfsobjecten zich op het verkochte perceel bevinden via de Basisregistratie Adressen en Gebouwen (BAG).</li>
+    <li>Controleer de WOZ-waarde van de woning via de Waardering Onroerende Zaken (WOZ).</li>
+</ol>
+</p>
+	
+	<p>Als de WOZ-waarde onder de opkoopbeschermingsdrempel ligt:
+        <ol start="3">
+            <li>Check welke personen zijn ingeschreven op het adres van de woning via de Basisregistratie Personen (BRP).</li>
+            <li>Identificeer de eigenaar van het perceel via het Kadaster (BRK).</li>
+        </ol>
+</p>
+
+<p>Als een van de bewoners niet overeenkomt met de eigenaar, moet er worden gehandhaafd op de regels voor opkoopbescherming.</p>
+
+<p>Op de volgende pagina lichten we het proces toe waarbij één vraag aan een orkestratie-engine wordt gesteld, die de individuele bevragingen voor de gemeenteambtenaar uitvoert.</p>
 
 			</div>
-			<div class="slide">Slide 4</div>
-			<div class="feature-properties">
-				<div id="properties">FeatureData</div>
-				<div id="lineage">FeatureLineage
-				<div class="mermaid" id="lineageDiagram">
-					graph RL
-				</div>
-		   		<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-		   		<script>mermaid.initialize({startOnLoad:true, maxEdges: 1000});</script>
-	</div>
+			<div class="slide" id="slide-4">				
+				<h3>Orkestreren van gegevens</h3>
+				
+<p>In het voorbeeld hiernaast hebben we individuele bevragingen vervangen door één vraag aan een orkestratie-engine: "Op welke verkochte percelen moet ik handhaven?"</p>
+
+<p>De orkestratie-engine raadpleegt verschillende bronnen op basis van het perceelnummer en retourneert samengestelde gegevens. De client-applicatie hoeft alleen nog een match op eigenaar en bewoner te maken om te bepalen of handhaving nodig is. Zelfs deze laatste stap kan door de orkestratie-engine worden uitgevoerd.</p>
+
+<p>In de kaart hiernaast zijn rode percelen te zien, waarbij de bewoner niet gelijk is aan de eigenaar volgens de orkestratie-engine. Door te klikken op een groen of rood perceel worden de gegevens en herkomst ervan in een diagram getoond.</p>
+
+<p>In deze demo gaan we ervan uit dat zowel de orkestratie-engine als de vraagsteller geautoriseerd zijn om deze gegevens op te vragen.</p>
+
+<p>Met het IMX-principe kunnen meerdere bronnen tegelijk worden bevraagd, wat het werkproces vereenvoudigt.</p>
+
+
 			</div>
 			<div class="buttons">
 				<button id="prevBtn">Vorige</button>
@@ -78,14 +105,22 @@
 		<div class="right-box">
 			<div id="infographic"></div>
 			<div id="map"></div>
+		</div>	
+					
+	</div>	
+	<div id="feature-properties">
+			<a class="close" onclick="$('#feature-properties').css('display','none');">Venster sluiten</a>
+			<div id="properties"></div>					
+			<div id="lineage"><h4>Herkomst gegevens (lineage)</h4>
+				<div class="mermaid" id="lineageDiagram">				
+				</div>
+				<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+				<script>mermaid.initialize('lineageSVG', {startOnLoad:true, maxEdges: 1000});</script>
+				
+
+			</div>
 		</div>		
-	</div>
-	
-	
-	
-	<div id="map"></div>
-	
-	<div id="log">Logging</div>
+	<!--div id="log">Logging</div-->
         <button onclick="getVerkochtePercelen(percelen);" value="verkochte Percelen">Verkochte percelen</button>
         <button onclick="checkPercelen(verkochtePercelen);">Controleer Percelen</button>
 		

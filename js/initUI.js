@@ -1,3 +1,5 @@
+var mapclick = false;
+
 document.addEventListener('DOMContentLoaded', function () {
     const slides = document.querySelectorAll('.slide');
     let currentIndex = 0;
@@ -14,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
       updateButtonsVisibility();
       demoShow(index);
+      updateMapClickable();
     }
 
     function demoShow(index) {
@@ -41,6 +44,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
   
+    function updateMapClickable() {
+        if (currentIndex === 3) {
+            mapclick = true;           
+        }
+        else {
+           mapclick = false;
+        }
+
+    }
     function updateButtonsVisibility() {
       if (currentIndex === 0) {
         prevBtn.style.display = 'none';
@@ -71,7 +83,32 @@ document.addEventListener('DOMContentLoaded', function () {
     prevBtn.addEventListener('click', prevSlide);
     nextBtn.addEventListener('click', nextSlide);
   
+
     // Toon de eerste dia bij het laden van de pagina
     showSlide(currentIndex);
+    
+    $('#closeFeatProps').on('click', function(e) {
+
+      console.log(e);
+    });
+       
+
   });
+
+
+
+  function initPanZoom() {
+   
+    //const svgElm = document.querySelectorAll('.mermaid svg');
+    //const svgElm = document.querySelectorAll('.mermaid')[0];
+    //const svgElm = document.querySelectorAll('feature-properties')[0];
+
+    const svgElm = document.getElementById('feature-properties');
+
+    console.log(svgElm);
+    panzoom(svgElm);
+  } 
+  
+
+
   

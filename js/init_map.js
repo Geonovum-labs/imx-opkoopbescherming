@@ -35,30 +35,31 @@ var init_map = function() {
 function pickRandomPlace() {
 
 	const stedenGeometrie = {
-		"Amsterdam": [52.3676, 4.9041],
-		"Rotterdam": [51.9225, 4.4792],
+		"Amsterdam": [52.3720, 4.9024], 
+		"Rotterdam": [51.9241, 4.5134],   
 		"Den Haag": [52.0705, 4.3007],
 		"Utrecht": [52.0907, 5.1214],
-		"Eindhoven": [51.4416, 5.4697],
+		"Eindhoven": [51.4381, 5.4776],
 		"Tilburg": [51.5555, 5.0913],
 		"Groningen": [53.2194, 6.5665],
-		"Almere": [52.3508, 5.2647],
-		"Breda": [51.5719, 4.7683],
+		"Almere": [52.3586, 5.2843],
+		"Breda": [51.5748, 4.7710], 
 		"Nijmegen": [51.8426, 5.8380],
-		"Apeldoorn": [52.2112, 5.9699],
-		"Enschede": [52.2215, 6.8937],
-		"Haarlem": [52.3874, 4.6462],
-		"Arnhem": [51.9851, 5.8987],
+		"Apeldoorn": [ 52.2049, 5.9682], 
+		"Enschede": [52.2200, 6.8958],
+		"Haarlem": [52.3818, 4.6370], 
+		"Arnhem": [51.9811, 5.9088],  
 		"Amersfoort": [52.1561, 5.3878],
-		"Zaanstad": [52.4534, 4.8133],
+		"Zaanstad": [52.4524, 4.8123], 
 		"Haarlemmermeer": [52.3060, 4.6900],
-		"'s-Hertogenbosch": [51.6978, 5.3037],
-		"Zoetermeer": [52.0570, 4.4910],
-		"Zwolle": [52.5168, 6.0830]
+		"'s-Hertogenbosch": [51.6876, 5.30380],
+		"Zoetermeer": [52.0399, 4.4925], 
+		"Zwolle": [52.5224, 6.0802]
 	};	
 	const stedenArray = Object.keys(stedenGeometrie);
 	const randomIndex = Math.floor(Math.random() * stedenArray.length);
 	const randomStadNaam = stedenArray[randomIndex];
 	console.log(randomStadNaam);
+	$('#stadNaam').html(randomStadNaam);
 	return stedenGeometrie[randomStadNaam];
 }

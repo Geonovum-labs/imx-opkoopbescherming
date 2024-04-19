@@ -9,39 +9,39 @@ function getPercelen() {
     $.getJSON(url, function(data) {
         console.log(data);
         percelenLayer = L.geoJSON(data, { style: {
-                                            color: '#000',
-                                            weight: 2,
-                                            fillOpacity: 0
+                                            color: '#444',
+                                            weight: 1,
+                                            opacity: 0.5,
+                                            fillOpacity: 0,
                                         }
         }).addTo(map);
         percelen = data;          
     });  
 }
 
-function getVerkochtePercelen(percelen) {
+function getVerkochtePercelen(percelen) {    
+
+    if (map.hasLayer(verkochtePercelenLayer) == true) {
+        map.removeLayer(verkochtePercelenLayer);
+    }
+
     features = [];
     $.getJSON('https://raw.githubusercontent.com/imx-org/imx-fieldlab/main/data/brk/OnroerendeZaak.json', function(data) { 
-
-    //prepare test data
+    
     const idx = getRandomIndexes(percelen.features.length);  
-
     i = 0;
     while (features.length < data.length) {
         j= features.length;
         feature = percelen.features[idx[i]];             
-        if (feature.properties.kadastraleGrootteWaarde > 100 && feature.properties.kadastraleGrootteWaarde < 250) {
+        if (feature.properties.kadastraleGrootteWaarde != 'undefined' && feature.properties.kadastraleGrootteWaarde > 100 && feature.properties.kadastraleGrootteWaarde < 250) {
             console.log(data);
             feature.id = data[j].identificatie;
             feature.properties = null;
             feature.properties = { controle : null }
-            features.push(feature); 
-                   
-        }    
-        //console.log(features);
+            features.push(feature);                    
+        }          
         i++;
-    }
-
-   
+    }  
 
     verkochtePercelenLayer = L.geoJSON(features, {                
             style: function(feature) {
@@ -105,6 +105,10 @@ function checkBewonerEigenaar(feature,data, graphql) {
 }
 
 function showData(feature, layer) {
+
+    if (mapclick == false) {
+        return false;
+    }
    
     layer.on('click', function() { 
         document.getElementById('feature-properties').style.display='block';        
@@ -114,43 +118,32 @@ function showData(feature, layer) {
         formatProperties(properties);
         formatLineage(lineage);
         //$('#lineage').html('<h1>LINEAGE</h1>' + formatLineage(lineage));
-        $('#properties').html('<h1>DATA</h1>' + formatProperties(properties));        
+        $('#properties').html('<h4>Georkestreerde gegevens</h4>' + formatProperties(properties));        
+
+
     });
 }
 
 function formatProperties (props) {
 
-    var html = '<table><th><td>Attribuut<td></td>Waarde</td></th>';
+    var html = '<table><thead><tr><th>Attribuut</th><th>Waarde</th></tr></thead><tbody>';
     $.each(props, function(key, val) {
          if (key != 'geregistreerdMet') {
             html = html + '<tr><td>'+key+'</td><td>'+val+'</td></tr>';
         }
     });
-    html = html + '</table>';
+    html = html + '</tbody></table>';
     return html;
 }
 
 function formatLineage (lineage) {
 
    var diagram =  createLineageDiagram(lineage);
-   
+  
    $('#lineageDiagram').html(diagram).removeAttr('data-processed');
    mermaid.init(undefined, $("#lineageDiagram"));   
-   $.each(lineage, function(key, val) {
-
-           // console.log(key,val);
-          //  val.kenmerk
-
-            
-
-
-    });
-
-
-
+   initPanZoom();  
 }
-
-
 
 function featureArray2Object(featureArray) {
 
