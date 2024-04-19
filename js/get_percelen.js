@@ -99,17 +99,17 @@ function checkBewonerEigenaar(feature,data, graphql) {
    const eigenaar = data.kadastraalOnroerendeZaak.eigenaar;
    const matches = bewoner.some(value => eigenaar.includes(value));  
    feature.properties = data.kadastraalOnroerendeZaak; 
-   feature.properties.graphql = graphql;     
-   feature.properties.controle = matches;     
+   feature.properties.graphql = graphql;   
+   console.log(data);
+   feature.properties.response = JSON.stringify(data, null, 2);   
+   feature.properties.controle = matches;   
    verkochtePercelenLayer.addData(feature);
 }
 
 function showData(feature, layer) {
-
     if (mapclick == false) {
         return false;
-    }
-   
+    }   
     layer.on('click', function() { 
         document.getElementById('feature-properties').style.display='block';        
         const lineage = feature.properties.geregistreerdMet;
@@ -129,7 +129,7 @@ function formatProperties (props) {
     var html = '<table><thead><tr><th>Attribuut</th><th>Waarde</th></tr></thead><tbody>';
     $.each(props, function(key, val) {
          if (key != 'geregistreerdMet') {
-            html = html + '<tr><td>'+key+'</td><td>'+val+'</td></tr>';
+            html = html + '<tr><td>'+key+'</td><td><code><pre>'+val+'</pre></code></td></tr>';
         }
     });
     html = html + '</tbody></table>';
