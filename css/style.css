@@ -142,11 +142,10 @@ h4 {
   color: green;
 }
 
-
  .mermaid svg {
   height: 340px;
   max-height: 340px;
- /* border: solid 1px  #ddd; */
+  border: solid 1px  #ddd; 
   cursor: grab;
 
  }
@@ -214,6 +213,11 @@ button:hover {
   margin: 0;
 }
 
+
+.mermaid {
+  background-color: #fff;
+  z-index: 9998;
+}
 .green-line {
   width: 100%;
   height: 5px;
