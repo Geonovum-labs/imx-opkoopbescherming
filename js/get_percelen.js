@@ -90,17 +90,18 @@ async function queryOrkestratie(feature, graphql) {
     var url= 'https://proxy.gewoongoedegeodata.nl/orkestratie/?url=https://imx.apps.digilab.network/fieldlab/api';       
     let gql = {"query" : JSON.stringify(graphql)};   
     $.post(url, gql, function(response) {     
-        checkBewonerEigenaar(feature, response.data, graphql);
+        checkBewonerEigenaar(feature, response.data, graphql, url);
     });
 }
 
-function checkBewonerEigenaar(feature,data, graphql) {     
+function checkBewonerEigenaar(feature,data, graphql, endpoint) {     
    const bewoner = data.kadastraalOnroerendeZaak.bewoner;
    const eigenaar = data.kadastraalOnroerendeZaak.eigenaar;
    const matches = bewoner.some(value => eigenaar.includes(value));  
    feature.properties = data.kadastraalOnroerendeZaak; 
+   feature.properties.endpoint = endpoint;
    feature.properties.graphql = graphql;   
-   console.log(data);
+
    feature.properties.response = JSON.stringify(data, null, 2);   
    feature.properties.controle = matches;   
    verkochtePercelenLayer.addData(feature);
@@ -119,7 +120,7 @@ function showData(feature, layer) {
         formatLineage(lineage);
         //$('#lineage').html('<h1>LINEAGE</h1>' + formatLineage(lineage));
         $('#properties').html('<h4>Georkestreerde gegevens</h4>' + formatProperties(properties));        
-
+        
 
     });
 }

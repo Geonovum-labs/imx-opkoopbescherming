@@ -5,7 +5,8 @@
 body {
 
 
-  font-family: 'Tenorite', sans-serif;  
+  font-family: 'Tenorite', sans-serif; 
+  overflow: hidden; 
   
 
 }
@@ -108,10 +109,10 @@ body {
     font-size: 0.8em; 
 
   }
-  
+
   #properties {     
     display: block;
-    height: 250px;
+    height: 600px;
     overflow-y: scroll; 
     max-width: 100%;
    }
@@ -119,6 +120,10 @@ body {
   #properties table {
   border-collapse: collapse;
   width: 100%;
+}
+
+#lineage {
+  opacity: 0;
 }
 
 th, td {
@@ -144,11 +149,10 @@ h4 {
 }
 
  .mermaid svg {
-  height: 340px;
-  max-height: 340px;
+  height: 500px;
+  max-height: 500px;
   border: none; 
   cursor: grab;
-
  }
 
 .buttons {    

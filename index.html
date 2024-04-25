@@ -109,17 +109,21 @@
 					
 	</div>	
 	<div id="feature-properties">
-			<a class="close" onclick="$('#feature-properties').css('display','none');">Venster sluiten</a>
+		<a class="close" onclick="$('#feature-properties').css('display','none');">Venster sluiten</a>
+		<a href="#" style="font-weight: bold; text-decoration:none;" id="tab1" onclick="$('#properties').show(); $('#tab1').css('font-weight', 'bold'); $('#lineage').hide(); $('#tab2').css('font-weight', 'normal');">Eigenschappen</a>
+		<a href="#" style="font-weight: normal; text-decoration:none;" id="tab2" onclick="$('#properties').hide(); $('#tab1').css('font-weight', 'normal'); $('#lineage').css('opacity', 1); $('#lineage').show(); $('#tab2').css('font-weight', 'bold');">Herkomst</a>
+		
 			<div id="properties"></div>					
 			<div id="lineage"><h4>Herkomst gegevens (lineage)</h4>
 				<div class="mermaid" id="lineageDiagram">				
 				</div>
 				<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-				<script>mermaid.initialize('lineageSVG', {startOnLoad:true, maxEdges: 1000});</script>
-				
+				<script>mermaid.initialize('lineageSVG', {startOnLoad:true, maxEdges: 1000}); </script>
+				<script type="text/javascript">setTimeOut($('#lineage').hide(), 5000);</script>
 
 			</div>
-		</div>		
+		</div>	
+		
 	<!--div id="log">Logging</div-->
         <button onclick="getVerkochtePercelen(percelen);" value="verkochte Percelen">Verkochte percelen</button>
         <button onclick="checkPercelen(verkochtePercelen);">Controleer Percelen</button>
