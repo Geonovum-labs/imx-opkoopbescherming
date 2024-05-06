@@ -4,11 +4,10 @@ function getPercelen() {
     console.log('ophalen Percelen');
     const bounds = map.getBounds();
     const bbox = `${bounds._southWest.lat},${bounds._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng}`;
-    const url = `https://geodata.nationaalgeoregister.nl/kadastralekaart/wfs/v5_0?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=kadastralekaartv4:perceel&STARTINDEX=0&COUNT=2000&OUTPUTFORMAT=application/json&SRSNAME=urn:ogc:def:crs:EPSG::4326&BBOX=${bbox},urn:ogc:def:crs:EPSG::4326`;
+   // const url = `https://geodata.nationaalgeoregister.nl/kadastralekaart/wfs/v5_0?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=kadastralekaartv4:perceel&STARTINDEX=0&COUNT=2000&OUTPUTFORMAT=application/json&SRSNAME=urn:ogc:def:crs:EPSG::4326&BBOX=${bbox},urn:ogc:def:crs:EPSG::4326`;
     const url = `https://service.pdok.nl/kadaster/kadastralekaart/wfs/v5_0??SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=kadastralekaartv4:perceel&STARTINDEX=0&COUNT=2000&OUTPUTFORMAT=application/json&SRSNAME=urn:ogc:def:crs:EPSG::4326&BBOX=${bbox},urn:ogc:def:crs:EPSG::4326`;
     
-    $.getJSON(url, function(data) {
-        console.log(data);
+    $.getJSON(url, function(data) {       
         percelenLayer = L.geoJSON(data, { style: {
                                             color: '#444',
                                             weight: 1,
