@@ -4,7 +4,7 @@ function getPercelen() {
     console.log('ophalen Percelen');
     const bounds = map.getBounds();
     const bbox = `${bounds._southWest.lat},${bounds._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng}`;
-    const url = `https://geodata.nationaalgeoregister.nl/kadastralekaart/wfs/v4_0?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=kadastralekaartv4:perceel&STARTINDEX=0&COUNT=2000&OUTPUTFORMAT=application/json&SRSNAME=urn:ogc:def:crs:EPSG::4326&BBOX=${bbox},urn:ogc:def:crs:EPSG::4326`;
+    const url = `https://geodata.nationaalgeoregister.nl/kadastralekaart/wfs/v5_0?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=kadastralekaartv4:perceel&STARTINDEX=0&COUNT=2000&OUTPUTFORMAT=application/json&SRSNAME=urn:ogc:def:crs:EPSG::4326&BBOX=${bbox},urn:ogc:def:crs:EPSG::4326`;
 
     $.getJSON(url, function(data) {
         console.log(data);
@@ -87,7 +87,7 @@ async function checkOpkoopbescherming(feature, identificatie) {
 }; 
 
 async function queryOrkestratie(feature, graphql) {   
-    var url= 'https://proxy.gewoongoedegeodata.nl/orkestratie/?url=https://imx.apps.digilab.network/fieldlab/api';       
+    var url= 'https://imx.apps.digilab.network/fieldlab/api';       
     let gql = {"query" : JSON.stringify(graphql)};   
     $.post(url, gql, function(response) {     
         checkBewonerEigenaar(feature, response.data, graphql, url);
