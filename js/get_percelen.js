@@ -101,7 +101,7 @@ function checkBewonerEigenaar(feature,data, graphql, endpoint) {
    const eigenaar = data.kadastraalOnroerendeZaak.eigenaar;
    const matches = bewoner.some(value => eigenaar.includes(value));  
    feature.properties = data.kadastraalOnroerendeZaak; 
-   feature.properties.endpoint = endpoint;
+   feature.properties.endpoint = endpoint.split('url=')[1];
    feature.properties.graphql = graphql;   
 
    feature.properties.response = JSON.stringify(data, null, 2);   
