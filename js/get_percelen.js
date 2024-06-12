@@ -88,14 +88,15 @@ async function checkOpkoopbescherming(feature, identificatie) {
 }; 
 
 async function queryOrkestratie(feature, graphql) {   
-    var url= 'https://proxy.gewoongoedegeodata.nl/orkestratie/?url=https://imx.apps.digilab.network/fieldlab/api';       
-    let gql = {"query" : JSON.stringify(graphql)};   
-    $.post(url, gql, function(response) {     
+    var url= 'https://proxy.gewoongoedegeodata.nl/orkestratie/?url=https://imx.apps.digilab.network/fieldlab/api';     
+    let gql = {"query" : JSON.stringify(graphql)};    
+    $.post(url, gql, function(response) {   
         checkBewonerEigenaar(feature, response.data, graphql, url);
     });
 }
 
-function checkBewonerEigenaar(feature,data, graphql, endpoint) {     
+function checkBewonerEigenaar(feature,data, graphql, endpoint) {   
+    console.log(data);  
    const bewoner = data.kadastraalOnroerendeZaak.bewoner;
    const eigenaar = data.kadastraalOnroerendeZaak.eigenaar;
    const matches = bewoner.some(value => eigenaar.includes(value));  
@@ -117,21 +118,20 @@ function showData(feature, layer) {
         const lineage = feature.properties.geregistreerdMet;
         const properties = feature.properties;
 
-        formatProperties(properties);
+        //formatProperties(properties);
         formatLineage(lineage);
         //$('#lineage').html('<h1>LINEAGE</h1>' + formatLineage(lineage));
-        $('#properties').html('<h4>Georkestreerde gegevens</h4>' + formatProperties(properties));        
-        
-
+        $('#properties').html('<h4>Georkestreerde gegevens</h4>' + formatProperties(properties));    
     });
 }
 
 function formatProperties (props) {
-
     var html = '<table><thead><tr><th>Attribuut</th><th>Waarde</th></tr></thead><tbody>';
     $.each(props, function(key, val) {
+        console.log(props);
+        console.log(val);
          if (key != 'geregistreerdMet') {
-            val = val.toString().split('=')[1];
+            //val = val.toString().split('=')[1];
             html = html + '<tr><td>'+key+'</td><td><code><pre>'+val+'</pre></code></td></tr>';
         }
     });
@@ -140,9 +140,7 @@ function formatProperties (props) {
 }
 
 function formatLineage (lineage) {
-
-   var diagram =  createLineageDiagram(lineage);
-  
+   var diagram =  createLineageDiagram(lineage);  
    $('#lineageDiagram').html(diagram).removeAttr('data-processed');
    mermaid.init(undefined, $("#lineageDiagram"));   
    initPanZoom();  
